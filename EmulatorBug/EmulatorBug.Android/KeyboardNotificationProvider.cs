@@ -48,6 +48,8 @@ namespace EmulatorBug.Droid
             if (_inputManager.Handle == IntPtr.Zero)
                 _inputManager = ObtainInputManager();
 
+            //BUG: On an emulator, once _inputManager.IsAcceptingText becomes true, it never becomes false again.
+
             if (_inputManager.IsAcceptingText)
                 SendKeyboardShownNotification();
             else
@@ -56,11 +58,8 @@ namespace EmulatorBug.Droid
 
         public void SendKeyboardHiddenNotification()
         {
-            if (IsShowing)
-            {
-                IsShowing = false;
-                MessagingCenter.Send<object>(this, "KeyboardHidden");
-            }
+            IsShowing = false;
+            MessagingCenter.Send<object>(this, "KeyboardHidden");
         }
         public void SendKeyboardShownNotification()
         {
